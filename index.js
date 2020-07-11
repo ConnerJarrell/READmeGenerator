@@ -1,3 +1,9 @@
+const inquirer = require("inquirer");
+const generateMarkdown = require("./utils/generateMarkdown");
+
+const fs = require("fs");
+
+
 const questions = [
     {
         message: "What is your GitHub username?",
@@ -58,10 +64,18 @@ const questions = [
 ];
 
 function writeToFile(fileName, data) {
-}
+    fs.writeFile(fileName, data, err => { 
+        if (err) throw err; 
+        console.log('file created')
+    })
+};
 
 function init() {
+    inquirer.prompt(questions).then(answer => {
+        const data = generateMarkdown(answer);
+        writeToFile("README.md" , data)
 
+    });
 }
 
 init();
